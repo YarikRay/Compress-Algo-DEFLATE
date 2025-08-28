@@ -1,0 +1,5 @@
+.git/
+.idea/
+test.txt
+compressed_data.txt
+.cmake-build-debug/
