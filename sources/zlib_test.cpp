@@ -4,7 +4,8 @@
 #include <fstream>
 #include <cassert>
 
-#include "zlib_test.h"
+#include "../headers/zlib_test.h"
+#include "../headers/path.h"
 
 // В файле zlib_test_def.cpp реализован метод def() класса Zlib
 
@@ -38,7 +39,7 @@ int Zlib::def(const string &src_file, const string &dest_file, int level) {
                        Z_DEFLATED, // единственный доступный метод
                        15,         // стандартный размер пропускного окна
                        8,          // стандартное значение memlevel
-                       Z_HUFFMAN_ONLY // стратегия, для сжатия применяется только алгоритм Хаффмана
+                       Z_DEFAULT_STRATEGY // стратегия, для сжатия применяется только алгоритма Хаффмана
     ); /* вызвали состояние zlib для сжатия deflateInit.
                                        Передали указатель на структуру strm и уровень сжатия level*/
 

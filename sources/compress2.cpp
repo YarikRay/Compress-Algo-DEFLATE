@@ -3,16 +3,20 @@
 #include <zlib.h>
 #include <fstream>
 
-#include "zlib_test.h"
+#include "../headers/zlib_test.h"
+#include "../headers/path.h"
 
-int Zlib::compress_data(const string &src_file, const string &dest_file, int level = Z_BEST_COMPRESSION) {
+int Zlib::compress_data(const string &src_file, const string &dest_file, int level) {
     ifstream in(src_file, ios::binary); // открыли файл на чтение
     if (!in.is_open()) {
-        cout << "File is not open" << endl;
+        cout << "This file is not open" << endl;
+    }
+    else {
+        cout << "This file is open" << endl;
     }
     in.seekg(0, ios::end);
     int size_file = in.tellg(); // определили размер файла
-    cout << "Size of file: " << size_file << endl;
+
     in.seekg(0, ios::beg);
     int pos = in.tellg();
 
@@ -21,7 +25,7 @@ int Zlib::compress_data(const string &src_file, const string &dest_file, int lev
 
     uLongf compressed_size = compressBound(size_file); // определили максимальный объем
                                                        // буфера для сжатых данные
-    cout << "Compressed size: " << compressed_size << endl;
+
     vector<unsigned char>data_compress(compressed_size); // выделили память под запись сжатых данных
 
     int ret = compress2( // сжатие данных
@@ -38,6 +42,9 @@ int Zlib::compress_data(const string &src_file, const string &dest_file, int lev
 
     data_compress.resize(compressed_size); // изменили размер вектора на реальный размер сжатых данных
     ofstream out(dest_file, ios::binary);
+    if (!out.is_open()) {
+        cout << "Dest file is not open";
+    }
     out.write(reinterpret_cast<char*>(data_compress.data()), compressed_size);
 
     return Z_OK;
